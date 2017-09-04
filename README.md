@@ -1,6 +1,7 @@
 # BBOXX Stumbler Library
 This library is solely for use with the BBOXX Ichnaea instance hosted at location.bboxx.co.uk
 It works in the background of Android apps by collecting cell tower and WiFi details when another app accesses the phone's GPS and then sending the details to Ichnaea.
+
 This library is a close derivative of libMozStumbler. More details can be found on the original GitHub repo wiki: https://github.com/mozilla/MozStumbler/wiki
 # Implementation Instructions
 The instructions assumes that Android Studio and Gradle are being used for development.
