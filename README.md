@@ -45,7 +45,9 @@ Place the following in your AndroidManifest.xml
 </receiver>
 ```
 
-In your activity Java code, place the following import statements:
+The code usually goes in your Main Activity, but if you have a splash screen, putting it there works too. As long as the code is called at startup or just after, the service will be started and will continue to run until the app is stopped/force closed.
+
+In your main activity Java code, place the following import statements:
 ```JAVA
 import android.os.Handler;
 import org.mozilla.mozstumbler.service.core.http.IHttpUtil;
