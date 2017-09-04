@@ -1,0 +1,171 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
+        classpath 'com.github.jcandksolutions.gradle:android-unit-test:2.1.1'
+
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.0'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+    }
+}
+
+//apply plugin: 'android-sdk-manager'
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+// adding an extra version number level for the BBOXX variant (we forked from MozStumbler version 1.8.6)
+version = "1.8.6-1"
+group = 'org.mozilla.mozstumbler'
+
+// The groupname will be changed into a path for the final library
+// http://dl.bintray.com/crankycoder/libMozStumbler/com/crankycoder/stumbler/0.9.0/
+
+def siteUrl = 'https://github.com/BBOXX/MozStumbler'
+def gitUrl = 'https://github.com/BBOXX/MozStumbler.git'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '25.0.0'
+
+    sourceSets {
+        androidTest.setRoot('src/test')
+    }
+
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 23
+    }
+
+    lintOptions {
+        disable 'MissingTranslation'
+        abortOnError false
+    }
+
+    useLibrary 'org.apache.http.legacy'
+}
+
+Properties properties = new Properties()
+File bintrayFile = project.rootProject.file('bintray.properties')
+if (bintrayFile.exists()) {
+    properties.load(bintrayFile.newDataInputStream())
+} else {
+    properties = null
+}
+
+bintray {
+    if (properties != null) {
+        user = properties.getProperty("bintray.user")
+        key = properties.getProperty("bintray.apikey")
+    }
+    configurations = ['archives']
+    pkg {
+        repo = "libMozStumbler"
+        name = "libMozStumbler"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["MPL-2.0"]
+        publish = true
+    }
+}
+
+
+//apply plugin: 'android-unit-test'
+
+/*androidUnitTest {
+}*/
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name 'A simple library to embed Mozilla Stumbler.'
+                url siteUrl
+                licenses {
+                    license {
+                        name 'Mozilla Public License, Version 2.0'
+                        url 'https://www.mozilla.org/MPL/2.0/'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'garvankeeley'
+                        name 'Garvan Keeley'
+                        email 'garvankeeley@gmail.com'
+                    }
+                    developer {
+                        id 'crankycoder'
+                        name 'Victor Ng'
+                        email 'victor@crankycoder.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    androidTestCompile 'junit:junit:4.10'
+    testCompile        'junit:junit:4.10'
+
+    androidTestCompile  'org.skyscreamer:jsonassert:1.2.3'
+    testCompile         'org.skyscreamer:jsonassert:1.2.3'
+    androidTestCompile  'com.google.code.gson:gson:2.3.1'
+    testCompile         'com.google.code.gson:gson:2.3.1'
+
+    androidTestCompile 'org.robolectric:robolectric:2.4'
+    testCompile        'org.robolectric:robolectric:2.4'
+
+    androidTestCompile "org.mockito:mockito-core:1.+"
+    testCompile        "org.mockito:mockito-core:1.+"
+
+    // https://developer.android.com/tools/support-library/features.html
+    // In general, we recommend including the v4 support and v7 appcompat
+    // libraries, because they support a wide range of Android versions and
+    // provide APIs for recommended user interface patterns.
+
+    compile "com.android.support:support-v4:23.0.0"
+    compile 'com.android.support:appcompat-v7:23.0.0'
+
+    // Acralyzer crash reports
+    compile('ch.acra:acra:4.5.0') {
+        exclude group: 'org.json'
+    }
+
+    // marisa-trie for offline geo support
+    compile 'org.mozilla.mozstumbler.marisa:marisa:0.4'
+
+    // Google Guava.  I'm lazy and want to use collections that aren't
+    // crazy.
+    compile group: 'com.google.guava', name: 'guava', version: '12.0'
+
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+task findConventions << {
+    println project.getConvention()
+}
