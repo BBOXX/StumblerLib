@@ -1,0 +1,36 @@
+{
+  "cellTowers": [
+    {
+      "radioType": "gsm",
+      "mobileCountryCode": 635,
+      "mobileNetworkCode": 14,
+      "locationAreaCode": 106,
+      "cellId": 2752,
+      "signalStrength": -101
+    },
+    {
+      "radioType": "gsm",
+      "mobileCountryCode": 635,
+      "mobileNetworkCode": 14,
+      "locationAreaCode": 106,
+      "cellId": 2753,
+      "signalStrength": -107
+    },
+    {
+      "radioType": "gsm",
+      "mobileCountryCode": 635,
+      "mobileNetworkCode": 14,
+      "locationAreaCode": 0,
+      "cellId": 2751,
+      "signalStrength": -105
+    },
+    {
+      "radioType": "gsm",
+      "mobileCountryCode": 635,
+      "mobileNetworkCode": 14,
+      "locationAreaCode": 0,
+      "cellId": 2592,
+      "signalStrength": -106
+    }
+  ]
+}
