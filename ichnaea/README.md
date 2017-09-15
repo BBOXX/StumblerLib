@@ -34,12 +34,18 @@ The HOME directory (`/home/ubuntu`) contains folders and scripts.
 
 The `backup` folder contains a zipped copy of the old BBOXX Ichnaea instance `ichnaea.zip`, documented [here](https://github.com/BBOXX/ichnaea). Along with that is a full database backup `ichnaea_full_backup.sql.gz` from before the upgrade to 2.2.0. The folder also contains other items that were used in the installation of Ichnaea 2.2.0 and can be ignored.
 
-The `test_scripts` folder contains various Python scripts used in uploading CSV data to the database. These are only needed for CSV upload, they rarely need to be used.
+The `scripts` folder contains various Python scripts. The `upload_scripts` subfolder contains Python files used in uploading CSV data to the database. These are only needed for CSV upload, they rarely need to be used. The `test_scripts` subfolder contains scripts used in the initial testing of the MySQL database. All of these can be ignored. However, `mysql_api_key.py` is a very useful Python script that may be used to create, delete, edit and view API keys. In the HOME directory there's a Bash script that makes using it easier.
+
+`apikey` is a Bash script used to access `mysql_api_key.py`. To get help regarding usage:
+```
+./apikey help
+```
 
 The `mls-update` folders contains the script and logs used for updating the database to the lastest MLS full cell export. `mysql_mls_gsm.py` is the Python script used and the logs folder contains 2 logs, one containing full debug output and the other containing start/end times. An update takes roughly an hour to 2 hours. Anything under 30 mins is a fail and usually is a result of low disk space. Check `~/mls-update/logs/mls-update-prog.log` for detailed progress information, though checking `~/mls-update/logs/ml-update.log` is usually sufficient.
 The bash executable script is located in `/etc/cron.daily` and is named `MLS-pull`. This gets run daily at 11pm and this (along with the other `cron.daily` scripts) can be changed via `/etc/crontab` if necessary.
 
-To start/stop/restart the server use (inside the home dir, `/home/ubuntu`):
+`server` is a Bash script used to start, stop or restart the server.
+To start/stop/restart the server (inside the home dir, `/home/ubuntu`):
 ```
 sudo ./server start|stop|restart
 ```

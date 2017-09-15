@@ -119,15 +119,15 @@ try:
 	    	elif sys.argv[1] == 'help':
 	    		print("apikey by Ben Withers - https://github.com/Manicben \
 	    			\nPython Tool for editing BBOXX Ichnaea API keys\n \
-	    			\nusage: apikey [OPTION]\n\n \
+	    			\nusage: ./apikey [OPTION]\n\n \
 	    			\nOPTION\tCommand(s)\t\t\t\tDescription\n \
-	    			\nlist\tapikey list\t\t\t\tLists available API keys. \
-	    			\n\ninfo\tapikey info\t\t\t\tLists keys with details. \
-	    			\n\tapikey info [key]\t\t\tLists details of specified key. \
-	    			\n\ncreate\tapikey create\t\t\t\tInitiates the key creation dialog. \
-	    			\n\tapikey create [key]\t\t\tInitiates the key creation dialog for given key. \
-	    			\n\ndelete\tapikey delete\t\t\t\tDeletes specified key. \
-	    			\n\nupdate\tapikey update [key] [field] [value]\tUpdates specified key with specified value for given field.\n")
+	    			\nlist\t./apikey list\t\t\t\tLists available API keys. \
+	    			\n\ninfo\t./apikey info\t\t\t\tLists keys with details. \
+	    			\n\t./apikey info [key]\t\t\tLists details of specified key. \
+	    			\n\ncreate\t./apikey create\t\t\t\tInitiates the key creation dialog. \
+	    			\n\t./apikey create [key]\t\t\tInitiates the key creation dialog for given key. \
+	    			\n\ndelete\t./apikey delete\t\t\t\tDeletes specified key. \
+	    			\n\nupdate\t./apikey update [key] [field] [value]\tUpdates specified key with specified value for given field.\n")
     	except IndexError:
     		print("No mode provided, quitting...")
 finally:
