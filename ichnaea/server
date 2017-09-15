@@ -1,0 +1,125 @@
+#!/bin/bash
+
+# Server Start/Stop/Restart script
+
+case "$1" in
+    # Restarts some/all of the containers.
+    restart)
+
+        case "$2" in
+
+          # Restarts the scheduler container.
+          scheduler)
+            $0 stop scheduler
+            $0 start scheduler
+            ;;
+
+          # Restarts the web container.
+          web)
+            $0 stop web
+            $0 start web
+            ;;
+
+          # Restarts the worker container.
+          worker)
+            $0 stop worker
+            $0 start worker
+            ;;
+
+          # Restarts the services.
+          services)
+            $0 stop services
+            $0 start services
+            ;;
+
+          # Restarts all containers.
+          *)
+            $0 stop
+            $0 start
+            ;;
+
+        esac
+        ;;
+
+    # Builds and starts some/all of our containers.
+    start)
+
+        case "$2" in
+
+          # Builds and starts the scheduler container.
+          scheduler)
+            docker run -d --env-file /home/ubuntu/env.txt --volume /opt/geoip:/app/geoip --name location_scheduler mozilla/location:2.2.0 scheduler
+            ;;
+
+          # Builds and starts the web container.
+          web)
+            docker run -d --env-file /home/ubuntu/env.txt --volume /opt/geoip:/app/geoip -p 8000:8000/tcp --name location_web mozilla/location:2.2.0 web
+            ;;
+
+          # Builds and starts the worker container.
+          worker)
+            docker run -d --env-file /home/ubuntu/env.txt --volume /opt/geoip:/app/geoip --name location_worker mozilla/location:2.2.0 worker
+            ;;
+
+          # Builds and starts the services supporting the application container.
+          services)
+            service mysql start
+            /etc/init.d/redis start
+            ;;
+          # Builds and starts all containers.
+          *)
+            $0 $1 services
+            $0 $1 scheduler
+            $0 $1 worker
+            $0 $1 web
+            ;;
+
+        esac
+        ;;
+
+    # Stops some/all of our containers.
+    stop)
+
+        case "$2" in
+
+          # Kills and removes the scheduler container.
+          scheduler)
+              docker kill location_scheduler >/dev/null
+              docker rm location_scheduler >/dev/null
+            ;;
+
+          # Kills and removes the web container.
+          web)
+              docker kill location_web >/dev/null
+              docker rm location_web >/dev/null
+            ;;
+
+          # Kills and removes the worker container.
+          worker)
+              docker kill location_worker >/dev/null
+              docker rm location_worker >/dev/null
+            ;;
+
+          # Stops the service containers.
+          services)
+            service mysql stop
+            /etc/init.d/redis stop
+            ;;
+
+          # Kills and removes all containers.
+          *)
+            $0 $1 scheduler
+            $0 $1 web
+            $0 $1 worker
+            $0 $1 services
+            ;;
+
+        esac
+        ;;
+    
+    # Open a shell inside the container
+    shell)
+        docker run -it --rm mozilla/location:2.2.0 shell
+        ;;
+
+esac        
